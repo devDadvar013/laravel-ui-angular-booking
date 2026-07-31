@@ -1,0 +1,35 @@
+# docker-compose.yml — اجرای کامل بک‌اند + فرانت‌اند
+#
+# از ریشه پروژه (کنار پوشه‌های booking-system و booking-ui) اجرا کنید.
+# سپس فرانت‌اند را با `cd booking-ui && npm install && npm start` بالا بیاورید.
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: booking-postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: booking_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - booking-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7
+    container_name: booking-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  booking-pg-data:
