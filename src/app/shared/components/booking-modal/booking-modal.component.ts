@@ -44,7 +44,7 @@ import { TimeSlot } from '../time-slot-grid/time-slot-grid.component';
             </div>
             <div class="row">
               <span class="k">تاریخ</span>
-              <span class="v">{{ slot.start | persianDate }}</span>
+              <span class="v">{{ slot.start | persianDate: 'compact' }}</span>
             </div>
             <div class="row">
               <span class="k">ساعت</span>

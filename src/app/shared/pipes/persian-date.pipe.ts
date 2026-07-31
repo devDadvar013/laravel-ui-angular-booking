@@ -8,6 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * استفاده:
  *   {{ someDate | persianDate }}              → "پنجشنبه ۹ مرداد ۱۴۰۵"
  *   {{ someDate | persianDate: 'short' }}      → "۱۴۰۵/۵/۹"
+ *   {{ someDate | persianDate: 'compact' }}    → "۹ مرداد"
  */
 @Pipe({
   name: 'persianDate',
@@ -28,12 +29,20 @@ export class PersianDatePipe implements PipeTransform {
     year: 'numeric',
   });
 
-  transform(value: Date | string | null | undefined, style: 'full' | 'short' = 'full'): string {
+  private static readonly compactFormatter = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+    day: 'numeric',
+    month: 'long',
+  });
+
+  transform(value: Date | string | null | undefined, style: 'full' | 'short' | 'compact' = 'full'): string {
     if (!value) return '';
     const date = value instanceof Date ? value : new Date(value);
     if (Number.isNaN(date.getTime())) return '';
 
-    const formatter = style === 'short' ? PersianDatePipe.shortFormatter : PersianDatePipe.fullFormatter;
+    const formatter =
+      style === 'short' ? PersianDatePipe.shortFormatter :
+      style === 'compact' ? PersianDatePipe.compactFormatter :
+      PersianDatePipe.fullFormatter;
     return formatter.format(date);
   }
 }

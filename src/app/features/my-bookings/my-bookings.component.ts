@@ -77,7 +77,7 @@ type FilterValue = 'all' | BookingStatus;
                   <app-status-pill [status]="b.status" />
                 </header>
                 <div class="when">
-                  <span class="date">{{ b.startTime | persianDate }}</span>
+                  <span class="date">{{ b.startTime | persianDate: 'compact' }}</span>
                   <span class="time num-en">
                     {{ b.startTime | date: 'HH:mm' }} — {{ b.endTime | date: 'HH:mm' }}
                   </span>
