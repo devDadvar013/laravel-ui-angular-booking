@@ -83,8 +83,8 @@ type FilterValue = 'all' | BookingStatus;
                   </span>
                 </div>
                 <div class="meta">
-                  <span><strong>نام:</strong> {{ b.customerName }}</span>
-                  <span class="num-en"><strong>ایمیل:</strong> {{ b.customerEmail }}</span>
+                  <span><strong>نام:</strong> <bdi>{{ b.customerName }}</bdi></span>
+                  <span><strong>ایمیل:</strong> <bdi class="num-en">{{ b.customerEmail }}</bdi></span>
                 </div>
               </div>
 
