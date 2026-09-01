@@ -52,18 +52,18 @@ export class BookingService {
 function toBooking(raw: unknown): Booking {
   const r = (raw ?? {}) as Record<string, unknown>;
   return {
-    id: String(r.id ?? ''),
-    resourceId: String(r.resource_id ?? r.resourceId ?? ''),
-    customerName: String(r.customer_name ?? r.customerName ?? ''),
-    customerEmail: String(r.customer_email ?? r.customerEmail ?? ''),
-    startTime: String(r.start_time ?? r.startTime ?? ''),
-    endTime: String(r.end_time ?? r.endTime ?? ''),
-    status: (r.status ?? 'pending') as Booking['status'],
+    id: String(r['id'] ?? ''),
+    resourceId: String(r['resource_id'] ?? r['resourceId'] ?? ''),
+    customerName: String(r['customer_name'] ?? r['customerName'] ?? ''),
+    customerEmail: String(r['customer_email'] ?? r['customerEmail'] ?? ''),
+    startTime: String(r['start_time'] ?? r['startTime'] ?? ''),
+    endTime: String(r['end_time'] ?? r['endTime'] ?? ''),
+    status: (r['status'] ?? 'pending') as Booking['status'],
     expiresAt:
-      r.expires_at != null || r.expiresAt != null
-        ? String(r.expires_at ?? r.expiresAt)
+      r['expires_at'] != null || r['expiresAt'] != null
+        ? String(r['expires_at'] ?? r['expiresAt'])
         : null,
-    createdAt: String(r.created_at ?? r.createdAt ?? ''),
-    updatedAt: String(r.updated_at ?? r.updatedAt ?? ''),
+    createdAt: String(r['created_at'] ?? r['createdAt'] ?? ''),
+    updatedAt: String(r['updated_at'] ?? r['updatedAt'] ?? ''),
   };
 }
