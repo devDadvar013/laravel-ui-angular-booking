@@ -20,7 +20,7 @@ export class BookingService {
     const dateStr =
       typeof date === 'string'
         ? date
-        : date.toISOString().slice(0, 10);
+        : `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     const params = new HttpParams().set('date', dateStr);
     return this.http.get<Booking[]>(
       `${this.base}/bookings/availability/${resourceId}`,
