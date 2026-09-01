@@ -9,6 +9,8 @@
 npm-debug.log
 yarn-error.log
 
+/backend
+
 # IDEs and editors
 .idea/
 .project
