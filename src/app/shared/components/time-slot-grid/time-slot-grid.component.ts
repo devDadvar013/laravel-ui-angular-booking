@@ -192,7 +192,7 @@ export class TimeSlotGridComponent {
   private recompute(): void {
     if (!this._date) return;
     const list: TimeSlot[] = [];
-    const dayKey = this._date.toISOString().slice(0, 10);
+    const dayKey = localDateKey(this._date);
     const now = new Date();
 
     // Normalize "open at" and "close at" in local time on the selected date
@@ -207,15 +207,19 @@ export class TimeSlotGridComponent {
       const end = new Date(t + slotMs);
 
       // Find a booking that overlaps this slot for the same day
-      const overlap = this._bookings.find((b) => {
+      const overlap: Booking | undefined = this._bookings.find((b) => {
         const bStart = new Date(b.startTime);
         const bEnd = new Date(b.endTime);
+        // Ignore bookings whose times are invalid or on a different day
+        if (
+          Number.isNaN(bStart.getTime()) ||
+          Number.isNaN(bEnd.getTime()) ||
+          localDateKey(bStart) !== dayKey
+        ) {
+          return false;
+        }
         // overlap test, in same calendar day
-        return (
-          bStart.toISOString().slice(0, 10) === dayKey &&
-          bStart < end &&
-          bEnd > start
-        );
+        return bStart < end && bEnd > start;
       });
 
       let state: TimeSlot['state'] = 'free';
@@ -232,4 +236,12 @@ export class TimeSlotGridComponent {
       if (!still || still.state !== 'free') this.selected.set(null);
     }
   }
+}
+
+/** Local (not UTC) calendar-day key, e.g. "2026-08-31". Avoids toISOString's UTC shift. */
+function localDateKey(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
